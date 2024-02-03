@@ -80,8 +80,37 @@ public class TS {
             for (int j = 0; j < m; j++) {
                 sum += newSolution[i][j] * jobs[j].resources[i];
             }
+            // wyświetlenie wartości sum oraz capacities
+            System.out.println("Sum: " + sum + " Capacities: " + agents[i].capacities);
             if(sum > agents[i].capacities){
                 correct = false;
+                System.out.println("Przekroczono limit zasobów");
+                //Naprawa rozwiązania
+                //Wybierz ważące najwięcej zadanie
+                int max = 0;
+                for (int j = 0; j < m; j++) {
+                    if(jobs[j].resources[i] > jobs[max].resources[i]){
+                        max = j;
+                    }
+                }
+                //Przypisz to zadanie do innego agenta
+                for (int j = 0; j < n; j++) {
+                    if(j != i){
+                        boolean limit = false;
+                        double sum2 = 0;
+                        for (int k = 0; k < m; k++) {
+                            sum2 += newSolution[j][k] * jobs[k].resources[j];
+                        }
+                        if(sum2 + jobs[max].resources[j] > agents[j].capacities){
+                            limit = true;
+                        }
+                        if(!limit){
+                            newSolution[j][max] = 1;
+                            newSolution[i][max] = 0;
+                            break;
+                        }
+                    }
+                }
             }
 
             if(sum==0){
