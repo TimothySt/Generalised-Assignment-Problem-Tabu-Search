@@ -5,66 +5,44 @@ public class GAPTabuArr
     // rozmiar tabu
     private int tabuSize;
     // tablica tabu ruchów do prolemu GAP
-    private ArrayList<GAPTabuArr> tabuArrList;
+    private ArrayList<GAPTabuMove> tabuArray;
 
     public GAPTabuArr(int tabuSize)
     {
         this.tabuSize = tabuSize;
-        tabuArrList = new ArrayList<GAPTabuArr>();
+        tabuArray = new ArrayList<GAPTabuMove>();
     }
 
-    // czy ruch jest na liście tabu
-    public boolean isTabu(GAPTabuArr GAPTabuArr)
+    public boolean isTabu(GAPTabuMove move)
     {
-        boolean isTabu = false;
-        for (GAPTabuArr GAPTabuArr2 : tabuArrList)
-        {
-            if (GAPTabuArr.equals(GAPTabuArr2)) {
-                isTabu = true;
-                break;
-            }
-        }
-        return isTabu;
+        return tabuArray.contains(move);
     }
     
     
     // dodanie ruchu do listy tabu
-    public void add(GAPTabuArr GAPTabuArr)
+    public boolean add(GAPTabuMove move)
     {
         // usunięcie ruchów z listy tabu, które przekroczyły kandecję
         
 
         // odanie nowego
-        if (tabuSize <= tabuArrList.size())
+        if (tabuSize <= tabuArray.size())
         {
-            tabuArrList.remove(0);
+            tabuArray.remove(0);
         }
-        tabuArrList.add(GAPTabuArr);
+        return tabuArray.add(move);
     }
 
     // usunięcie ruchu z listy tabu
-    public void remove(GAPTabuArr tb)
+    public boolean remove(GAPTabuMove move)
     {
-        //znajdź indeks ruchu
-        int index = -1;
-        for (int i = 0; i < tabuArrList.size(); i++)
-        {
-            if (tb.equals(tabuArrList.get(i)))
-            {
-                index = i;
-                break;
-            }
-        }
-        //usuń ruch
-        if (index != -1)
-        {
-            tabuArrList.remove(index);
-        }
-        else
-        {
-            System.out.println("Nie znaleziono ruchu na liście tabu");
-            
-        }
-
+        return tabuArray.remove(move);
+    }
+    
+    
+    // wyczyszczenie tablicy
+    public void clear()
+    {
+        tabuArray.clear();
     }
 }
